@@ -27,7 +27,7 @@ def mycopytree(src, dst):
                     #判断文件是否更新
                     if(os.stat(srcname)[8] > os.stat(dstname)[8]):
                         #移除文件，然后拷贝
-                        print("{0} is newer,overwritting".format(srcname))
+                        print("# {0} is newer,overwritting".format(srcname))
                         os.remove(dstname)
                         shutil.copy2(srcname, dstname)
                     else:
@@ -48,7 +48,7 @@ def truncate(dst,src):
     #print("compair {} with {}".format(dst,src))
     if not os.path.exists(src):#src maps to dst if they are file
         deldir(dst)    
-        print("deleting {0} as {1} vanished.".format(dst,src))
+        print("##  deleting {0} as {1} vanished.".format(dst,src))
     
 def deldir(path):
     """truncate dst dir to syn"""
@@ -71,8 +71,11 @@ if __name__ == '__main__':
     import os
     source = os.getcwd()
     #dst = input("Input the Mobile drive letter:")
-    dst = 'I:\\library\\Excel'
+    ##  PC DIR
+    #dst = 'E:\\library\\Excel
+    ##  FLASH DIR
+    dst = 'K:\\Excel'
     
     sysndir(source,dst,1)
-    print("##Backup Complete.")
+    print("####    Backup Complete.")
 
