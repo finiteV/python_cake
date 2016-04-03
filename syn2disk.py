@@ -27,11 +27,11 @@ def mycopytree(src, dst):
                     #判断文件是否更新
                     if(os.stat(srcname)[8] > os.stat(dstname)[8]):
                         #移除文件，然后拷贝
-                        print("{0} is newer,overwritting".format(srcname))
+                        print("# {0} is newer,overwritting".format(srcname))
                         os.remove(dstname)
                         shutil.copy2(srcname, dstname)
                     else:
-                        print("{0} is not newer,omited".format(srcname))
+                        print("{0} is not newer,omited".format(srcname.replace(source,'')))
         except:
             print('Error File:',srcname)
 
@@ -48,7 +48,7 @@ def truncate(dst,src):
     #print("compair {} with {}".format(dst,src))
     if not os.path.exists(src):#src maps to dst if they are file
         deldir(dst)    
-        print("deleting {0} as {1} vanished.".format(dst,src))
+        print("##  deleting {0} as {1} vanished.".format(dst,src))
     
 def deldir(path):
     """truncate dst dir to syn"""
@@ -62,7 +62,7 @@ def deldir(path):
         os.rmdir(path)
 
 def sysndir(src,dst,type):
-    mycopytree(src,dst)   
+    mycopytree(src,dst)
     if type==1:
         truncate(dst,src)
     
@@ -70,9 +70,16 @@ def sysndir(src,dst,type):
 if __name__ == '__main__':
     import os
     source = os.getcwd()
-    #dst = input("Input the Mobile drive letter:")
-    dst = 'I:\\library\\Excel'
-    
-    sysndir(source,dst,1)
-    print("##Backup Complete.")
+    swth = raw_input("SD to PC or reverse?[Y/N]: ")
+    ##  PC DIR
+    pc_dst = 'E:\\library\\Excel'
+    ##  FLASH DIR
+    sd_dst = 'K:\\Excel'
+    if swth=='y'  or swth=='Y':
+        print '-'*10,'Syn: ',source,'->',pc_dst,'-'*10
+        sysndir(source,pc_dst,1)
+    else:
+        print '-'*10,'Syn: ',source,'->',sd_dst,'-'*10
+        sysndir(source,sd_dst,1)
+    print '-'*10,"Backup Complete",'-'*10
 
