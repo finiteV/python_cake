@@ -38,6 +38,12 @@ def mycopytree(src, dst):
 def truncate(dst,src):
     """删除dst有,而src下没有的dst下的文件
     """
+    if not os.path.exists(src):#src maps to dst
+        cmd = raw_input("?? about to delete {}?[Y/N]: ".format(dst))
+        if cmd=='Y' or cmd=='y':
+            deldir(dst)    
+            print("##  deleting {0} as {1} disappear.".format(dst,src))
+        return
     #recurring    
     if os.path.isdir(dst):
         names = os.listdir(dst)
@@ -46,9 +52,6 @@ def truncate(dst,src):
             src2 = os.path.join(src, name)
             truncate(dst2,src2)        
     #print("compair {} with {}".format(dst,src))
-    if not os.path.exists(src):#src maps to dst if they are file
-        deldir(dst)    
-        print("##  deleting {0} as {1} vanished.".format(dst,src))
     
 def deldir(path):
     """truncate dst dir to syn"""
@@ -65,16 +68,16 @@ def sysndir(src,dst,type):
     mycopytree(src,dst)
     if type==1:
         truncate(dst,src)
-    
+
      
 if __name__ == '__main__':
     import os
     source = os.getcwd()
     swth = raw_input("SD to PC or reverse?[Y/N]: ")
     ##  PC DIR
-    pc_dst = 'E:\\library\\Excel'
+    pc_dst = 'E:\\Test'
     ##  FLASH DIR
-    sd_dst = 'K:\\Excel'
+    sd_dst = 'K:\\Test'
     if swth=='y'  or swth=='Y':
         print '-'*10,'Syn: ',source,'->',pc_dst,'-'*10
         sysndir(source,pc_dst,1)
