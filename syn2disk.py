@@ -1,5 +1,8 @@
 # -*- coding: utf8 -*-
-##copy Math file to My mobile phone sd card,or reverse
+####################
+# Author
+# tzterryz@gmail.com
+####################
 import os
 import os.path
 import shutil
