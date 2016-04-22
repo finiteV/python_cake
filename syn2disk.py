@@ -1,25 +1,28 @@
 # -*- coding: utf8 -*-
-####################
-# Author
-# tzterryz@gmail.com
-####################
+##copy Math file to My mobile phone sd card,or reverse
 import os
 import os.path
 import shutil
+
 def mycopytree(src, dst):
     """用法mycopytree(source,destiny)
     将src目录下的所有文件同步到dst目录下
     """
     ##
-    names = os.listdir(src)
-    #确定dst目录是否存在,不存在则创建
-    if not os.path.isdir(dst):
-        os.makedirs(dst)
+    if not os.path.isdir(src):
+        names = ['']
+    else:
+        names = os.listdir(src)
+        #确定dst目录是否存在,不存在则创建
+        if not os.path.isdir(dst):
+            os.makedirs(dst)
         
-    errors = []
     for name in names:
-        srcname = os.path.join(src, name)
-        dstname = os.path.join(dst, name)
+        srcname = src
+        dstname = dst
+        if name != '':
+            srcname = os.path.join(src, name)
+            dstname = os.path.join(dst, name)
         try:
             if os.path.isdir(srcname):
                 mycopytree(srcname, dstname)
@@ -74,18 +77,30 @@ def sysndir(src,dst,type):
 
      
 if __name__ == '__main__':
+    DIR_EXCEPT = ['LOST.DIR','Books']  #relative to source
+    
     import os
-    source = os.getcwd()
-    swth = raw_input("SD to PC or reverse?[Y/N]: ")
+    source = os.getcwd()  #assume be a dir
+    swth = raw_input("PC to Flash or reverse?[Y/N]: ")
     ##  PC DIR
-    pc_dst = 'E:\\Test'
+    pc_dst = 'L:\\library'
     ##  FLASH DIR
-    sd_dst = 'K:\\Test'
+    flash_dst = 'K:\\'
     if swth=='y'  or swth=='Y':
-        print '-'*10,'Syn: ',source,'->',pc_dst,'-'*10
-        sysndir(source,pc_dst,1)
+        print '-'*10,'Syn: ',source,'->',flash_dst,'-'*10
+        destination = flash_dst
     else:
-        print '-'*10,'Syn: ',source,'->',sd_dst,'-'*10
-        sysndir(source,sd_dst,1)
+        print '-'*10,'Syn: ',source,'->',pc_dst,'-'*10
+        destination = pc_dst
+
+    names = os.listdir(source)
+    for name in names:
+        if name in DIR_EXCEPT:
+            continue
+        srcname = os.path.join(source, name)
+        dstname = os.path.join(destination, name)
+        print('... syn {0} to {1} ...'.format(srcname,dstname))
+        sysndir(srcname,dstname,1)
+        
     print '-'*10,"Backup Complete",'-'*10
 
