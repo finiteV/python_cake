@@ -28,6 +28,7 @@ def mycopytree(src, dst):
                 mycopytree(srcname, dstname)
             else:
                 if(not os.path.exists(dstname)):
+                    print(".. copying {0} ..".format(srcname.replace(source,'')))
                     shutil.copy2(srcname, dstname)
                 else:
                     #判断文件是否更新
@@ -36,8 +37,8 @@ def mycopytree(src, dst):
                         print("# {0} is newer,overwritting".format(srcname))
                         os.remove(dstname)
                         shutil.copy2(srcname, dstname)
-                    else:
-                        print("{0} is not newer,omited".format(srcname.replace(source,'')))
+                    #else:
+                        #print("{0} is not newer,omited".format(srcname.replace(source,'')))
         except:
             print('Error File:',srcname)
 
