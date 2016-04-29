@@ -76,9 +76,19 @@ def sysndir(src,dst,type):
     if type==1:
         truncate(dst,src)
 
+def start(source,destination,DIR_EXCEPT):
+    names = os.listdir(source)
+    for name in names:
+        if name in DIR_EXCEPT:
+            continue
+        srcname = os.path.join(source, name)
+        dstname = os.path.join(destination, name)
+        print('... syn {0} to {1} ...'.format(srcname,dstname))
+        sysndir(srcname,dstname,1)
+
      
 if __name__ == '__main__':
-    DIR_EXCEPT = ['LOST.DIR','Books']  #relative to source
+    DIR_EXCEPT = ['LOST.DIR','Books','Rubbish','desktop.ini']  #relative to source
     
     import os
     source = os.getcwd()  #assume be a dir
@@ -94,14 +104,7 @@ if __name__ == '__main__':
         print '-'*10,'Syn: ',source,'->',pc_dst,'-'*10
         destination = pc_dst
 
-    names = os.listdir(source)
-    for name in names:
-        if name in DIR_EXCEPT:
-            continue
-        srcname = os.path.join(source, name)
-        dstname = os.path.join(destination, name)
-        print('... syn {0} to {1} ...'.format(srcname,dstname))
-        sysndir(srcname,dstname,1)
+    start(source,destination,DIR_EXCEPT)
         
     print '-'*10,"Backup Complete",'-'*10
 
